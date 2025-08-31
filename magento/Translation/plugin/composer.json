@@ -1,0 +1,49 @@
+{
+    "name": "nativemind/magento-translation",
+    "description": "Advanced translation module for Magento 2 with Google Translate and OpenAI integration",
+    "type": "magento2-module",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "NativeMind",
+            "email": "contact@nativemind.net",
+            "homepage": "https://nativemind.net"
+        }
+    ],
+    "keywords": [
+        "magento2",
+        "translation",
+        "multilingual",
+        "google-translate",
+        "openai",
+        "i18n",
+        "localization"
+    ],
+    "require": {
+        "php": ">=7.4.0",
+        "magento/framework": ">=103.0.0",
+        "magento/module-catalog": ">=104.0.0",
+        "magento/module-store": ">=101.1.0",
+        "magento/module-config": ">=101.2.0",
+        "magento/module-backend": ">=102.0.0",
+        "magento/module-eav": ">=102.1.0"
+    },
+    "suggest": {
+        "ext-curl": "Required for API calls to translation services",
+        "ext-json": "Required for JSON handling"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "NativeMind\\Translation\\": ""
+        }
+    },
+    "extra": {
+        "magento-root-dir": "../../../../../../",
+        "magento-force": true
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="nativelang" translate="label" sortOrder="100">
+            <label>NativeLang</label>
+        </tab>
+        <section id="nativelang" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>NativeLang Translation Settings</label>
+            <tab>nativelang</tab>
+            <resource>NativeMind_Translation::config</resource>
+            
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Translation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable automatic product translation functionality</comment>
+                </field>
+                <field id="service" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Translation Service</label>
+                    <source_model>NativeMind\Translation\Model\Config\Source\TranslationService</source_model>
+                    <comment>Choose which translation service to use</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="auto_translate" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto Translate on Save</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Automatically translate products when they are saved</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            
+            <group id="google" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google Translate Settings</label>
+                <depends>
+                    <field id="nativelang/general/enabled">1</field>
+                    <field id="nativelang/general/service">google</field>
+                </depends>
+                <field id="api_key" translate="label comment" type="password" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Translate API Key</label>
+                    <comment>Get your API key from Google Cloud Console</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+            </group>
+            
+            <group id="openai" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>OpenAI Translation Settings</label>
+                <depends>
+                    <field id="nativelang/general/enabled">1</field>
+                    <field id="nativelang/general/service">openai</field>
+                </depends>
+                <field id="api_key" translate="label comment" type="password" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>OpenAI API Key</label>
+                    <comment>Get your API key from OpenAI platform</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="model" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>OpenAI Model</label>
+                    <source_model>NativeMind\Translation\Model\Config\Source\OpenAiModel</source_model>
+                    <comment>Choose which OpenAI model to use for translation</comment>
+                </field>
+            </group>
+            
+            <group id="attributes" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Translation Attributes</label>
+                <depends>
+                    <field id="nativelang/general/enabled">1</field>
+                </depends>
+                <field id="translate_name" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Translate Product Names</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable translation of product names</comment>
+                </field>
+                <field id="translate_description" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Translate Product Descriptions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable translation of product descriptions</comment>
+                </field>
+                <field id="translate_short_description" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Translate Short Descriptions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable translation of product short descriptions</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
