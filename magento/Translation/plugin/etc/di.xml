@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    
+    <!-- Console Commands -->
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -8,4 +10,11 @@
             </argument>
         </arguments>
     </type>
+    
+    <!-- Service Interface Preferences -->
+    <preference for="NativeMind\Translation\Api\TranslationManagementInterface" type="NativeMind\Translation\Model\TranslationManagement"/>
+    <preference for="NativeMind\Translation\Api\Data\TranslationResultInterface" type="NativeMind\Translation\Model\Data\TranslationResult"/>
+    <preference for="NativeMind\Translation\Api\Data\TranslationStatusInterface" type="NativeMind\Translation\Model\Data\TranslationStatus"/>
+    <preference for="NativeMind\Translation\Api\Data\TranslationStatsInterface" type="NativeMind\Translation\Model\Data\TranslationStats"/>
+    
 </config>

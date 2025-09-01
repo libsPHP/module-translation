@@ -1,0 +1,290 @@
+<?php
+/**
+ * @var \NativeMind\Translation\Block\Adminhtml\Translation\ProductActions $block
+ */
+?>
+
+<div class="admin__page-section-item">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= $block->escapeHtml(__('Translation Actions')) ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        
+        <!-- Bulk Translation Form -->
+        <div class="bulk-translation-form">
+            <h4><?= $block->escapeHtml(__('Bulk Translation')) ?></h4>
+            <form id="bulk-translation-form">
+                <div class="admin__field">
+                    <label class="admin__field-label" for="store-select">
+                        <span><?= $block->escapeHtml(__('Select Store')) ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <select id="store-select" name="store_id" class="admin__control-select" required>
+                            <option value=""><?= $block->escapeHtml(__('-- Select Store --')) ?></option>
+                            <?php foreach ($block->getStores() as $store): ?>
+                                <option value="<?= $block->escapeHtmlAttr($store['value']) ?>">
+                                    <?= $block->escapeHtml($store['label']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="admin__field">
+                    <label class="admin__field-label" for="product-ids">
+                        <span><?= $block->escapeHtml(__('Product IDs (Optional)')) ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <input type="text" id="product-ids" name="product_ids" class="admin__control-text" 
+                               placeholder="<?= $block->escapeHtmlAttr(__('e.g., 1,2,3 (leave empty for all products)')) ?>">
+                    </div>
+                    <div class="admin__field-note">
+                        <?= $block->escapeHtml(__('Comma-separated list of product IDs. Leave empty to translate all products.')) ?>
+                    </div>
+                </div>
+                
+                <div class="admin__field admin__field-option">
+                    <input type="checkbox" id="force-retranslate" name="force" value="1" class="admin__control-checkbox">
+                    <label for="force-retranslate" class="admin__field-label">
+                        <span><?= $block->escapeHtml(__('Force re-translation of already translated products')) ?></span>
+                    </label>
+                </div>
+                
+                <div class="admin__field admin__field-option">
+                    <input type="checkbox" id="limit-products" name="limit_enabled" value="1" class="admin__control-checkbox">
+                    <label for="limit-products" class="admin__field-label">
+                        <span><?= $block->escapeHtml(__('Limit number of products to translate')) ?></span>
+                    </label>
+                </div>
+                
+                <div class="admin__field" id="limit-field" style="display: none;">
+                    <label class="admin__field-label" for="limit-number">
+                        <span><?= $block->escapeHtml(__('Limit')) ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <input type="number" id="limit-number" name="limit" value="100" min="1" max="1000" class="admin__control-text">
+                    </div>
+                </div>
+                
+                <div class="admin__field">
+                    <div class="admin__field-control">
+                        <button type="submit" class="action-primary scalable" id="bulk-translate-btn">
+                            <span><?= $block->escapeHtml(__('Start Bulk Translation')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Translation Progress -->
+        <div id="translation-progress" style="display: none;">
+            <h4><?= $block->escapeHtml(__('Translation Progress')) ?></h4>
+            <div class="translation-progress-bar">
+                <div class="progress-bar-container">
+                    <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
+                </div>
+                <div id="progress-text" class="progress-text">0%</div>
+            </div>
+            <div id="progress-details" class="progress-details"></div>
+            <button type="button" id="cancel-translation" class="action-secondary">
+                <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+            </button>
+        </div>
+
+        <!-- Translation Results -->
+        <div id="translation-results" style="display: none;">
+            <h4><?= $block->escapeHtml(__('Translation Results')) ?></h4>
+            <div id="results-content"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+require(['jquery', 'mage/url'], function($, urlBuilder) {
+    'use strict';
+    
+    let translationJobId = null;
+    let progressInterval = null;
+
+    // Toggle limit field
+    $('#limit-products').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#limit-field').show();
+        } else {
+            $('#limit-field').hide();
+        }
+    });
+
+    // Handle bulk translation form submission
+    $('#bulk-translation-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            store_id: $('#store-select').val(),
+            product_ids: $('#product-ids').val(),
+            force: $('#force-retranslate').is(':checked'),
+            limit: $('#limit-products').is(':checked') ? $('#limit-number').val() : null
+        };
+
+        if (!formData.store_id) {
+            alert('<?= $block->escapeJs(__('Please select a store.')) ?>');
+            return;
+        }
+
+        startBulkTranslation(formData);
+    });
+
+    function startBulkTranslation(data) {
+        $('#bulk-translate-btn').prop('disabled', true).text('<?= $block->escapeJs(__('Starting...')) ?>');
+        $('#translation-progress').show();
+        $('#translation-results').hide();
+
+        $.ajax({
+            url: '<?= $block->escapeUrl($block->getBulkTranslateUrl()) ?>',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    translationJobId = response.job_id;
+                    startProgressTracking();
+                } else {
+                    showError(response.message || '<?= $block->escapeJs(__('Failed to start translation.')) ?>');
+                }
+            },
+            error: function() {
+                showError('<?= $block->escapeJs(__('An error occurred while starting translation.')) ?>');
+            }
+        });
+    }
+
+    function startProgressTracking() {
+        progressInterval = setInterval(function() {
+            checkTranslationProgress();
+        }, 2000);
+    }
+
+    function checkTranslationProgress() {
+        if (!translationJobId) return;
+
+        $.ajax({
+            url: '<?= $block->escapeUrl($block->getCheckStatusUrl()) ?>',
+            type: 'GET',
+            data: { job_id: translationJobId },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    updateProgress(response.data);
+                    
+                    if (response.data.status === 'completed' || response.data.status === 'failed') {
+                        stopProgressTracking();
+                        showResults(response.data);
+                    }
+                }
+            }
+        });
+    }
+
+    function updateProgress(data) {
+        const percentage = data.progress || 0;
+        $('#progress-bar-fill').css('width', percentage + '%');
+        $('#progress-text').text(percentage + '%');
+        
+        const details = `${data.processed_items || 0} / ${data.total_items || 0} products processed`;
+        if (data.error_count > 0) {
+            details += ` (${data.error_count} errors)`;
+        }
+        $('#progress-details').text(details);
+    }
+
+    function stopProgressTracking() {
+        if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+        }
+        $('#bulk-translate-btn').prop('disabled', false).text('<?= $block->escapeJs(__('Start Bulk Translation')) ?>');
+    }
+
+    function showResults(data) {
+        const status = data.status === 'completed' ? 'success' : 'error';
+        const message = data.status === 'completed' 
+            ? '<?= $block->escapeJs(__('Translation completed successfully!')) ?>' 
+            : '<?= $block->escapeJs(__('Translation failed or was cancelled.')) ?>';
+        
+        const resultsHtml = `
+            <div class="message message-${status}">
+                <div>${message}</div>
+            </div>
+            <ul>
+                <li><?= $block->escapeJs(__('Total items:')) ?> ${data.total_items || 0}</li>
+                <li><?= $block->escapeJs(__('Processed:')) ?> ${data.processed_items || 0}</li>
+                <li><?= $block->escapeJs(__('Errors:')) ?> ${data.error_count || 0}</li>
+            </ul>
+        `;
+        
+        $('#results-content').html(resultsHtml);
+        $('#translation-results').show();
+        $('#translation-progress').hide();
+    }
+
+    function showError(message) {
+        alert(message);
+        stopProgressTracking();
+        $('#translation-progress').hide();
+    }
+
+    // Cancel translation
+    $('#cancel-translation').on('click', function() {
+        if (translationJobId) {
+            // TODO: Implement cancel functionality
+            stopProgressTracking();
+            $('#translation-progress').hide();
+        }
+    });
+});
+</script>
+
+<style>
+.bulk-translation-form {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.bulk-translation-form h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.translation-progress-bar {
+    margin: 15px 0;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #007cba;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    text-align: center;
+    font-weight: bold;
+    color: #007cba;
+}
+
+.progress-details {
+    text-align: center;
+    color: #666;
+    margin: 10px 0;
+}
+</style>

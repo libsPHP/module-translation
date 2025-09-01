@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Translation Dashboard</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="NativeMind\Translation\Block\Adminhtml\Translation\Dashboard" name="nativelang.translation.dashboard" template="NativeMind_Translation::translation/dashboard.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="NativeMind\Translation\Block\Adminhtml\Translation\Stats" name="nativelang.translation.stats" template="NativeMind_Translation::translation/stats.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

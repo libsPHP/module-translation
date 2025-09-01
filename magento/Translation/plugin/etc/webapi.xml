@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    
+    <!-- Translate Text -->
+    <route url="/V1/nativelang/translate" method="POST">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="translateText"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translate"/>
+        </resources>
+    </route>
+    
+    <!-- Translate Multiple Texts -->
+    <route url="/V1/nativelang/translate-batch" method="POST">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="translateTexts"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translate"/>
+        </resources>
+    </route>
+    
+    <!-- Translate Single Product -->
+    <route url="/V1/nativelang/product/:productId/translate" method="POST">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="translateProduct"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translate_products"/>
+        </resources>
+    </route>
+    
+    <!-- Translate Multiple Products -->
+    <route url="/V1/nativelang/products/translate" method="POST">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="translateProducts"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translate_products"/>
+        </resources>
+    </route>
+    
+    <!-- Get Translation Status -->
+    <route url="/V1/nativelang/status/:translationId" method="GET">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="getTranslationStatus"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translation"/>
+        </resources>
+    </route>
+    
+    <!-- Get Translation Statistics -->
+    <route url="/V1/nativelang/stats" method="GET">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="getTranslationStats"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translation"/>
+        </resources>
+    </route>
+    
+    <!-- Get Translation Statistics for Store -->
+    <route url="/V1/nativelang/stats/:storeId" method="GET">
+        <service class="NativeMind\Translation\Api\TranslationManagementInterface" method="getTranslationStats"/>
+        <resources>
+            <resource ref="NativeMind_Translation::translation"/>
+        </resources>
+    </route>
+    
+</routes>

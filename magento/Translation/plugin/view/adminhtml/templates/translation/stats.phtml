@@ -1,0 +1,202 @@
+<?php
+/**
+ * @var \NativeMind\Translation\Block\Adminhtml\Translation\Stats $block
+ */
+$stats = $block->getQuickStats();
+$issues = $block->getConfigurationIssues();
+?>
+
+<div class="admin__page-section-item">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= $block->escapeHtml(__('Quick Stats')) ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        
+        <!-- Configuration Status -->
+        <?php if (!empty($issues)): ?>
+            <div class="message message-warning">
+                <div><?= $block->escapeHtml(__('Configuration Issues:')) ?></div>
+                <ul>
+                    <?php foreach ($issues as $issue): ?>
+                        <li><?= $block->escapeHtml($issue) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php else: ?>
+            <div class="message message-success">
+                <div><?= $block->escapeHtml(__('Translation is properly configured and ready to use.')) ?></div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Service Info -->
+        <div class="translation-service-info">
+            <h4><?= $block->escapeHtml(__('Current Configuration')) ?></h4>
+            <table class="admin__table-secondary">
+                <tr>
+                    <td><?= $block->escapeHtml(__('Translation Enabled')) ?></td>
+                    <td>
+                        <span class="grid-severity-<?= $stats['translation_enabled'] ? 'notice' : 'critical' ?>">
+                            <?= $block->escapeHtml($stats['translation_enabled'] ? __('Yes') : __('No')) ?>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?= $block->escapeHtml(__('Translation Service')) ?></td>
+                    <td><?= $block->escapeHtml(ucfirst($stats['translation_service'])) ?></td>
+                </tr>
+                <tr>
+                    <td><?= $block->escapeHtml(__('API Configured')) ?></td>
+                    <td>
+                        <span class="grid-severity-<?= $block->isTranslationConfigured() ? 'notice' : 'critical' ?>">
+                            <?= $block->escapeHtml($block->isTranslationConfigured() ? __('Yes') : __('No')) ?>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="translation-stats-summary">
+            <h4><?= $block->escapeHtml(__('Translation Summary')) ?></h4>
+            <div class="stats-list">
+                <div class="stat-row">
+                    <span class="stat-label"><?= $block->escapeHtml(__('Total Products')) ?></span>
+                    <span class="stat-value"><?= $block->escapeHtml($stats['total_products']) ?></span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label"><?= $block->escapeHtml(__('Translated')) ?></span>
+                    <span class="stat-value stat-success"><?= $block->escapeHtml($stats['translated_products']) ?></span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label"><?= $block->escapeHtml(__('Pending')) ?></span>
+                    <span class="stat-value stat-warning"><?= $block->escapeHtml($stats['pending_products']) ?></span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label"><?= $block->escapeHtml(__('Errors')) ?></span>
+                    <span class="stat-value stat-error"><?= $block->escapeHtml($stats['error_products']) ?></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Ring -->
+        <?php if ($stats['total_products'] > 0): ?>
+            <?php $percentage = round(($stats['translated_products'] / $stats['total_products']) * 100); ?>
+            <div class="progress-ring-container">
+                <div class="progress-ring">
+                    <svg class="progress-ring-svg" width="120" height="120">
+                        <circle class="progress-ring-circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="progress-ring-circle" cx="60" cy="60" r="50" style="stroke-dasharray: <?= 314 * $percentage / 100 ?>, 314"></circle>
+                    </svg>
+                    <div class="progress-ring-text">
+                        <div class="progress-percentage"><?= $percentage ?>%</div>
+                        <div class="progress-label"><?= $block->escapeHtml(__('Complete')) ?></div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<style>
+.translation-service-info {
+    margin: 15px 0;
+}
+
+.translation-service-info h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.translation-stats-summary {
+    margin: 15px 0;
+}
+
+.translation-stats-summary h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.stats-list {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-weight: 500;
+}
+
+.stat-value {
+    font-weight: bold;
+}
+
+.stat-success {
+    color: #79a22e;
+}
+
+.stat-warning {
+    color: #eb5202;
+}
+
+.stat-error {
+    color: #e22626;
+}
+
+.progress-ring-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.progress-ring {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring-svg {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+    fill: none;
+    stroke: #e0e0e0;
+    stroke-width: 8;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: #007cba;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease;
+}
+
+.progress-ring-text {
+    position: absolute;
+    text-align: center;
+}
+
+.progress-percentage {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #007cba;
+}
+
+.progress-label {
+    font-size: 0.8em;
+    color: #666;
+}
+</style>

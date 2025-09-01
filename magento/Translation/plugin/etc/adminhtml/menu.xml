@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="NativeMind_Translation::main" title="NativeLang" module="NativeMind_Translation" sortOrder="100" resource="NativeMind_Translation::translation"/>
+        <add id="NativeMind_Translation::dashboard" title="Translation Dashboard" module="NativeMind_Translation" sortOrder="10" parent="NativeMind_Translation::main" action="nativelang/translation/dashboard" resource="NativeMind_Translation::translation"/>
+        <add id="NativeMind_Translation::products" title="Product Translation" module="NativeMind_Translation" sortOrder="20" parent="NativeMind_Translation::main" action="nativelang/translation/products" resource="NativeMind_Translation::translate_products"/>
+        <add id="NativeMind_Translation::categories" title="Category Translation" module="NativeMind_Translation" sortOrder="30" parent="NativeMind_Translation::main" action="nativelang/translation/categories" resource="NativeMind_Translation::translate_categories"/>
+        <add id="NativeMind_Translation::history" title="Translation History" module="NativeMind_Translation" sortOrder="40" parent="NativeMind_Translation::main" action="nativelang/translation/history" resource="NativeMind_Translation::translation"/>
+        <add id="NativeMind_Translation::settings" title="Settings" module="NativeMind_Translation" sortOrder="50" parent="NativeMind_Translation::main" action="adminhtml/system_config/edit/section/nativelang" resource="NativeMind_Translation::config"/>
+    </menu>
+</config>
