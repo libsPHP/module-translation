@@ -1,1 +1,0 @@
-https://docs.bitnami.com/aws/apps/magento/administration/recover-database-mariadb/
