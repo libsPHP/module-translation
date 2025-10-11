@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
+    <topic name="nativemind.translation.product" request="NativeMind\Translation\Api\Data\TranslationMessageInterface">
+        <handler name="productTranslationHandler" type="NativeMind\Translation\Model\Consumer\ProductTranslationConsumer" method="process"/>
+    </topic>
+    <topic name="nativemind.translation.category" request="NativeMind\Translation\Api\Data\TranslationMessageInterface">
+        <handler name="categoryTranslationHandler" type="NativeMind\Translation\Model\Consumer\CategoryTranslationConsumer" method="process"/>
+    </topic>
+    <topic name="nativemind.translation.batch" request="NativeMind\Translation\Api\Data\TranslationBatchMessageInterface">
+        <handler name="batchTranslationHandler" type="NativeMind\Translation\Model\Consumer\BatchTranslationConsumer" method="process"/>
+    </topic>
+</config>
+

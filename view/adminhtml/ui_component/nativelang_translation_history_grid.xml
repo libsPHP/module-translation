@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">nativelang_translation_history_grid.nativelang_translation_history_grid_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>nativelang_translation_history_columns</spinner>
+        <deps>
+            <dep>nativelang_translation_history_grid.nativelang_translation_history_grid_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="nativelang_translation_history_grid_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">history_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>NativeMind_Translation::translation</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="nativelang_translation_history_grid_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>history_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <filterSelect name="store_id" provider="${ $.parentName }">
+                <settings>
+                    <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+                    <caption translate="true">All Store Views</caption>
+                    <label translate="true">Store View</label>
+                    <dataScope>store_id</dataScope>
+                </settings>
+            </filterSelect>
+            <filterSelect name="status" provider="${ $.parentName }">
+                <settings>
+                    <options>
+                        <option name="0" xsi:type="array">
+                            <item name="value" xsi:type="string">pending</item>
+                            <item name="label" xsi:type="string" translate="true">Pending</item>
+                        </option>
+                        <option name="1" xsi:type="array">
+                            <item name="value" xsi:type="string">completed</item>
+                            <item name="label" xsi:type="string" translate="true">Completed</item>
+                        </option>
+                        <option name="2" xsi:type="array">
+                            <item name="value" xsi:type="string">failed</item>
+                            <item name="label" xsi:type="string" translate="true">Failed</item>
+                        </option>
+                    </options>
+                    <caption translate="true">All Statuses</caption>
+                    <label translate="true">Status</label>
+                    <dataScope>status</dataScope>
+                </settings>
+            </filterSelect>
+        </filters>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="nativelang/translation/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="nativelang_translation_history_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>history_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="history_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="entity_type">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Entity Type</label>
+            </settings>
+        </column>
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Entity ID</label>
+            </settings>
+        </column>
+        <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="attribute_code">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Attribute</label>
+            </settings>
+        </column>
+        <column name="target_language">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Target Language</label>
+            </settings>
+        </column>
+        <column name="translation_service">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Service</label>
+            </settings>
+        </column>
+        <column name="status">
+            <settings>
+                <filter>select</filter>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">pending</item>
+                        <item name="label" xsi:type="string" translate="true">Pending</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">completed</item>
+                        <item name="label" xsi:type="string" translate="true">Completed</item>
+                    </option>
+                    <option name="2" xsi:type="array">
+                        <item name="value" xsi:type="string">failed</item>
+                        <item name="label" xsi:type="string" translate="true">Failed</item>
+                    </option>
+                </options>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="processing_time">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Processing Time (ms)</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="NativeMind\Translation\Ui\Component\Listing\Column\HistoryActions">
+            <settings>
+                <indexField>history_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>
+

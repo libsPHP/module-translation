@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
+    <consumer name="nativemindTranslationProductConsumer" queue="nativemind.translation.product.queue" connection="amqp" handler="NativeMind\Translation\Model\Consumer\ProductTranslationConsumer::process" maxMessages="100"/>
+    <consumer name="nativemindTranslationCategoryConsumer" queue="nativemind.translation.category.queue" connection="amqp" handler="NativeMind\Translation\Model\Consumer\CategoryTranslationConsumer::process" maxMessages="100"/>
+    <consumer name="nativemindTranslationBatchConsumer" queue="nativemind.translation.batch.queue" connection="amqp" handler="NativeMind\Translation\Model\Consumer\BatchTranslationConsumer::process" maxMessages="50"/>
+</config>
+

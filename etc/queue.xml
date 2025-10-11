@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/queue.xsd">
+    <broker topic="nativemind.translation.product" exchange="magento" type="queue">
+        <queue consumer="nativemindTranslationProductConsumer" name="nativemind.translation.product.queue" />
+    </broker>
+    <broker topic="nativemind.translation.category" exchange="magento" type="queue">
+        <queue consumer="nativemindTranslationCategoryConsumer" name="nativemind.translation.category.queue" />
+    </broker>
+    <broker topic="nativemind.translation.batch" exchange="magento" type="queue">
+        <queue consumer="nativemindTranslationBatchConsumer" name="nativemind.translation.batch.queue" />
+    </broker>
+</config>
+

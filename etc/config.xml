@@ -6,6 +6,9 @@
                 <enabled>0</enabled>
                 <service>google</service>
                 <auto_translate>0</auto_translate>
+                <cache_enabled>1</cache_enabled>
+                <cache_lifetime>86400</cache_lifetime>
+                <max_text_length>50000</max_text_length>
             </general>
             <attributes>
                 <translate_name>1</translate_name>

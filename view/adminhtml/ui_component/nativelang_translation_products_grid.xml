@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">nativelang_translation_products_grid.product_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>product_columns</spinner>
+        <deps>
+            <dep>nativelang_translation_products_grid.product_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="product_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>NativeMind_Translation::translate_products</aclResource>
+        <dataProvider class="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider" name="product_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters"/>
+        <massaction name="listing_massaction">
+            <action name="translate">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to translate selected products?</message>
+                        <title translate="true">Translate products</title>
+                    </confirm>
+                    <url path="nativelang/translation/massTranslateProducts"/>
+                    <type>translate</type>
+                    <label translate="true">Translate</label>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="product_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="thumbnail" class="Magento\Catalog\Ui\Component\Listing\Columns\Thumbnail" component="Magento_Ui/js/grid/columns/thumbnail">
+            <settings>
+                <hasPreview>1</hasPreview>
+                <altField>name</altField>
+                <label translate="true">Thumbnail</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
+        </column>
+        <column name="sku">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">SKU</label>
+            </settings>
+        </column>
+        <column name="translation_status">
+            <settings>
+                <filter>select</filter>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">pending</item>
+                        <item name="label" xsi:type="string" translate="true">Pending</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">translated</item>
+                        <item name="label" xsi:type="string" translate="true">Translated</item>
+                    </option>
+                    <option name="2" xsi:type="array">
+                        <item name="value" xsi:type="string">error</item>
+                        <item name="label" xsi:type="string" translate="true">Error</item>
+                    </option>
+                </options>
+                <dataType>select</dataType>
+                <label translate="true">Translation Status</label>
+            </settings>
+        </column>
+        <column name="last_translation_date" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Last Translated</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Magento\Catalog\Ui\Component\Listing\Columns\ProductActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="additionalClasses" xsi:type="string">translation-actions</item>
+                </item>
+            </argument>
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>
+

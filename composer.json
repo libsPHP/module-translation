@@ -2,7 +2,7 @@
     "name": "nativemind/module-translation",
     "description": "Advanced translation module for Magento 2 with Google Translate and OpenAI integration",
     "type": "magento2-module",
-    "license": "MIT",
+    "license": "NativeMindNONC",
     "authors": [
         {
             "name": "NativeMind",

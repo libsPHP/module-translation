@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
+    <exchange name="magento" type="topic" connection="amqp">
+        <binding id="nativemindTranslationProductBinding" topic="nativemind.translation.product" destinationType="queue" destination="nativemind.translation.product.queue"/>
+        <binding id="nativemindTranslationCategoryBinding" topic="nativemind.translation.category" destinationType="queue" destination="nativemind.translation.category.queue"/>
+        <binding id="nativemindTranslationBatchBinding" topic="nativemind.translation.batch" destinationType="queue" destination="nativemind.translation.batch.queue"/>
+    </exchange>
+</config>
+

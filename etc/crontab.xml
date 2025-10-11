@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <!-- Clean expired cache every day at 3 AM -->
+        <job name="nativemind_translation_clean_cache" instance="NativeMind\Translation\Cron\CleanCache" method="execute">
+            <schedule>0 3 * * *</schedule>
+        </job>
+        
+        <!-- Process translation queue every 5 minutes -->
+        <job name="nativemind_translation_process_queue" instance="NativeMind\Translation\Cron\ProcessQueue" method="execute">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+        
+        <!-- Clean completed queue items every week -->
+        <job name="nativemind_translation_clean_queue" instance="NativeMind\Translation\Cron\CleanQueue" method="execute">
+            <schedule>0 2 * * 0</schedule>
+        </job>
+    </group>
+</config>
+
