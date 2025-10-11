@@ -5,3 +5,6 @@
     <consumer name="nativemindTranslationBatchConsumer" queue="nativemind.translation.batch.queue" connection="amqp" handler="NativeMind\Translation\Model\Consumer\BatchTranslationConsumer::process" maxMessages="50"/>
 </config>
 
+
+
+

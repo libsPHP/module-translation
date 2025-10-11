@@ -104,3 +104,6 @@ class ProductTranslationConsumerTest extends TestCase
     }
 }
 
+
+
+
