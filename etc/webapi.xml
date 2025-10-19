@@ -58,4 +58,96 @@
         </resources>
     </route>
     
+    <!-- Admin Management APIs -->
+    <route url="/V1/nativelang/admin/queue/status" method="GET">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="getQueueStatus"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/api-usage" method="GET">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="getApiUsage"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/cache/clear" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="clearCache"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/product/:productId/translate" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="forceTranslateProduct"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/category/:categoryId/translate" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="forceTranslateCategory"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/history" method="GET">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="getTranslationHistory"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/queue/retry-failed" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="retryFailedTranslations"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/queue/:queueId" method="GET">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="getQueueItemDetails"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/queue/:queueId/cancel" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="cancelQueueItem"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/configuration" method="GET">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="getConfiguration"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/configuration" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="updateConfiguration"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/test-connection" method="GET">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="testConnection"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
+    <route url="/V1/nativelang/admin/history/purge" method="POST">
+        <service class="NativeLang\Translation\Api\AdminManagementInterface" method="purgeOldHistory"/>
+        <resources>
+            <resource ref="NativeLang_Translation::admin"/>
+        </resources>
+    </route>
+    
 </routes>

@@ -18,5 +18,8 @@
     <preference for="NativeMind\Translation\Api\Data\TranslationStatsInterface" type="NativeMind\Translation\Model\Data\TranslationStats"/>
     <preference for="NativeMind\Translation\Api\Data\TranslationMessageInterface" type="NativeMind\Translation\Model\Data\TranslationMessage"/>
     <preference for="NativeMind\Translation\Api\Data\TranslationBatchMessageInterface" type="NativeMind\Translation\Model\Data\TranslationBatchMessage"/>
+    <preference for="NativeLang\Translation\Api\AdminManagementInterface" type="NativeLang\Translation\Model\AdminManagement"/>
+    <preference for="NativeLang\Translation\Api\Data\QueueStatusInterface" type="NativeLang\Translation\Model\Data\QueueStatus"/>
+    <preference for="NativeLang\Translation\Api\Data\ApiUsageInterface" type="NativeLang\Translation\Model\Data\ApiUsage"/>
     
 </config>
