@@ -1,6 +1,7 @@
 {
     "name": "nativemind/module-translation",
-    "description": "Advanced translation module for Magento 2 with Google Translate and OpenAI integration",
+    "description": "Advanced translation module for Magento 2 with Google Translate and OpenAI integration. v2.0 includes comprehensive Admin API, queue management system, and React microservice for translation administration.",
+    "version": "2.0.0",
     "type": "magento2-module",
     "license": "NativeMindNONC",
     "authors": [

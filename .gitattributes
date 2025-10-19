@@ -1,0 +1,32 @@
+# Git attributes for proper package export
+
+# Exclude development files from archive
+/Test export-ignore
+/phpunit.xml export-ignore
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/CONTRIBUTING.md export-ignore
+/TESTING_REPORT.md export-ignore
+/PRODUCTION_READY_v2.0.md export-ignore
+/PUBLICATION_REPORT.md export-ignore
+/FINAL_SUMMARY_v2.0.md export-ignore
+/UPGRADE_TO_2.0.md export-ignore
+/install.sh export-ignore
+
+# Exclude translation-admin from Magento package
+/translation-admin export-ignore
+
+# Ensure proper line endings
+* text=auto
+*.php text eol=lf
+*.xml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.sql text eol=lf
+
+# Denote binary files
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+
